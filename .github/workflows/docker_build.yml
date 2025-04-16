@@ -22,4 +22,4 @@ jobs:
         uses: ko-build/setup-ko@v0.9
 
       - name: Build and push Docker image
-        run: ko build --platform linux/amd64,linux/arm64
+        run: ko build --bare --platform linux/amd64,linux/arm64
