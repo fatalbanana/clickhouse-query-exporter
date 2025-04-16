@@ -3,9 +3,6 @@ name: Publish Docker image
 on:
   workflow_call:
 
-env:
-  KO_DOCKER_REPO: ghcr.io/${{ github.repository }}
-
 jobs:
   docker_build:
     runs-on: ["ubuntu-latest"]
