@@ -12,10 +12,10 @@ var (
 
 type (
 	EnvConfig struct {
-		BindAddr string `default:"127.0.0.1" split_words:"true"`
+		BindAddr string `split_words:"true"`
 		BindPort int    `default:"37825" split_words:"true"`
 		Debug    bool
-		DSNMap   StringStringMap `split_words:"true", required:"true"`
+		DSNMap   StringStringMap `split_words:"true" required:"true"`
 		QueryMap StringStringMap `split_words:"true"`
 	}
 
