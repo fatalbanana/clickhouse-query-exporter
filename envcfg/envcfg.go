@@ -16,7 +16,7 @@ type (
 		BindPort int    `default:"37825" split_words:"true"`
 		Debug    bool
 		DSNMap   StringStringMap `split_words:"true" required:"true"`
-		QueryMap StringStringMap `split_words:"true"`
+		QueryMap StringStringMap `split_words:"true" required:"true"`
 	}
 
 	StringStringMap map[string]string
