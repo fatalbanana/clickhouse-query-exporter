@@ -27,3 +27,6 @@ jobs:
       - name: Run staticcheck
         run: |
           staticcheck ./...
+
+      - name: Run go vet
+        run: go vet ./...
