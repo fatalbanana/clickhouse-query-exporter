@@ -39,9 +39,8 @@ func runServer(bindAddr string, bindPort int) *http.Server {
 
 func main() {
 
-	log := zap.L()
-
-	http.HandleFunc("/probe", handleProbe)
+	http.HandleFunc("/", handleOther)
+	http.HandleFunc("GET /probe", handleProbe)
 	ws := runServer(envcfg.Cfg.BindAddr, envcfg.Cfg.BindPort)
 
 	<-sigChan
@@ -53,7 +52,7 @@ func main() {
 
 	err := ws.Shutdown(shutCtx)
 	if err != nil {
-		log.Error("error shutting down webserver", zap.Error(err))
+		zap.L().Error("error shutting down webserver", zap.Error(err))
 	}
 }
 

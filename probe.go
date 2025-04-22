@@ -22,24 +22,34 @@ func mustWrite(w io.Writer, data []byte) {
 func handleProbe(w http.ResponseWriter, r *http.Request) {
 	target := r.URL.Query().Get("target")
 	if target == "" {
+		zap.L().Debug("received request without target",
+			zap.String("remote_addr", r.RemoteAddr))
 		http.Error(w, "target is required", http.StatusBadRequest)
 		return
 	}
 
 	dsn, ok := envcfg.Cfg.DSNMap[target]
 	if !ok {
+		zap.L().Debug("received request with unrecognised target",
+			zap.String("remote_addr", r.RemoteAddr),
+			zap.String("target", target))
 		http.Error(w, "target is unrecognised", http.StatusBadRequest)
 		return
 	}
 
 	queryName := r.URL.Query().Get("query")
 	if queryName == "" {
+		zap.L().Debug("received request without query",
+			zap.String("remote_addr", r.RemoteAddr))
 		http.Error(w, "query is required", http.StatusBadRequest)
 		return
 	}
 
 	query, ok := envcfg.Cfg.QueryMap[queryName]
 	if !ok {
+		zap.L().Debug("received request with unrecognised query",
+			zap.String("remote_addr", r.RemoteAddr),
+			zap.String("query", query))
 		http.Error(w, "query is unrecognised", http.StatusBadRequest)
 		return
 	}
@@ -71,4 +81,9 @@ func handleProbe(w http.ResponseWriter, r *http.Request) {
 	mustWrite(w, []byte(fmt.Sprintf("# HELP chquery_%s_result Result of ClickHouse query: %s\n", queryName, queryName)))
 	mustWrite(w, []byte(fmt.Sprintf("# TYPE chquery_%s_result gauge\n", queryName)))
 	mustWrite(w, []byte(fmt.Sprintf("chquery_%s_result %d\n", queryName, res)))
+
+	zap.L().Debug("served probe results",
+		zap.String("remote_addr", r.RemoteAddr),
+		zap.String("target", target),
+		zap.String("query", query))
 }
