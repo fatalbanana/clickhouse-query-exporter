@@ -85,5 +85,5 @@ func handleProbe(w http.ResponseWriter, r *http.Request) {
 	zap.L().Debug("served probe results",
 		zap.String("remote_addr", r.RemoteAddr),
 		zap.String("target", target),
-		zap.String("query", query))
+		zap.String("query_name", queryName))
 }
